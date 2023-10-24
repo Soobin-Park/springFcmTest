@@ -10,7 +10,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.net.http.HttpHeaders;
+import org.springframework.http.HttpHeaders;
 import java.util.List;
 
 @Component
@@ -19,12 +19,12 @@ public class FirebaseCloudMessageService {
     private final String API_URL = "https://fcm.googleapis.com/v1/projects/androidfcmtest-ec311/messages:send";
     private final ObjectMapper objectMapper;
 
-    public void sendMessageTo(String targetToken, String title, String body) throws IOException{
+    public void  sendMessageTo(String targetToken, String title, String body) throws IOException{
         //targetToken은 front에서 얻을 수 o
         String message = makeMessage(targetToken, title, body);
 
         OkHttpClient client = new OkHttpClient();
-        RequestBody requestBody = RequestBody.create(message, MediaType.get("appliationjson; charset=utf-8"));
+        RequestBody requestBody = RequestBody.create(message, MediaType.get("application/json; charset=utf-8"));
         Request request = new Request.Builder()
                 .url(API_URL)
                 .post(requestBody)
@@ -44,7 +44,8 @@ public class FirebaseCloudMessageService {
                         .notification(FcmMessage.Notification.builder()
                                 .title(title)
                                 .body(body)
-                                .image("./././resources/static/images/appLogo.png")
+                                //.image("../../../resources/static/images/appLogo.png")
+                                .image("/resources/static/images/appLogo.png")
                                 .build()
                         )
                         .build()

@@ -20,9 +20,6 @@ public class NotificationController {
 
     @PostMapping("/api/notification")
     public ResponseEntity sendToNotification(@RequestBody RequestDto requestDto) throws IOException {
-        System.out.println(requestDto.getTargetToken());
-        System.out.println(requestDto.getTitle());
-        System.out.println(requestDto.getBody());
 
         firebaseCloudMessageService.sendMessageTo(requestDto.getTargetToken(), requestDto.getTitle(),requestDto.getBody());
         return ResponseEntity.ok().build();
